@@ -1,13 +1,18 @@
 <template>
     <div>
-        <div>statistics</div>
+        <div>
+            <Nav />
+            statistics
+        </div>
     </div>
 </template>
 
 <script>
+import Nav from '../components/Nav.vue';
     export default {
-        name:'Statistics'
-    }
+    name: "Statistics",
+    components: { Nav }
+}
 </script>
 
 <style lang="scss" scoped>
