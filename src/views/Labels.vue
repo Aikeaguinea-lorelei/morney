@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <div>
-            <Nav/>
-            labels
-        </div>
-    </div>
+    <Layout>
+        labels
+    </Layout>
 </template>
 
 <script>
@@ -14,7 +11,3 @@ import Nav from '../components/Nav.vue';
     components: { Nav }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
