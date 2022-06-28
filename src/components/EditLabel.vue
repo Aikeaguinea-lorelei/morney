@@ -1,14 +1,14 @@
 <template>
-    <div>
-
-    </div>
+    <layout>
+        
+    </layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
 @Component
-export default class EditLable extends Vue{
+export default class EditLabel extends Vue{
     
 }
 </script>

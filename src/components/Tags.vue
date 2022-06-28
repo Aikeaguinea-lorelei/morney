@@ -17,7 +17,7 @@
 
     @Component  // 定义一个供外部调用的dataSource,并由外部传参(tag)
     export default class Tags extends Vue{
-        @Prop() dataSource:string[]
+        @Prop() readonly dataSource:string[] | undefined
         selectedTags:string[]=[]  // 数组: 提供给使用者放选中的tag
 
         toggle(tag:string){  // 点击函数: 如果数组里面没有这个选中的tag,点击后就把这个tag放进数组里
