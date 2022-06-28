@@ -9,10 +9,14 @@
 
 <script lang="ts">
     import Vue from "vue";
-    import Component from "vue-class-component";
+    import {Component, Watch} from 'vue-property-decorator';
     @Component
     export default class Notes extends Vue{
         value=''
+        @Watch('value')  // 侦听value的值,当value改变时将他的值update
+        onValueChanged(value:string,oldValve:string){
+            this.$emit('update:value',value)
+        }
         onInput(event:KeyboardEvent){
             const input=event.target as HTMLInputElement
             this.value=input.value

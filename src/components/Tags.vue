@@ -1,25 +1,44 @@
 <template>
         <div class="tags">
             <div class="new">
-                <button>新增标签</button>
+                <button @click="create">新增标签</button>
             </div>
             <ul class="current">
-                <li v-for="tag in dataSource" :key="tag">{{tag}}</li>
+                <li v-for="tag in dataSource" :key="tag"
+                :class="{selected: selectedTags.indexOf(tag)>=0}"
+                @click="toggle(tag)">{{tag}}</li>
             </ul>
         </div>
 </template>
 
-<script lang="ts">//@click="select(tag)"
+<script lang="ts">
     import Vue from 'vue'
     import {Component, Prop} from 'vue-property-decorator';
 
     @Component  // 定义一个供外部调用的dataSource,并由外部传参(tag)
     export default class Tags extends Vue{
-        @Prop() dataSource:string[]=[] 
-        selectedTags:string[]=[]
-        // select(tag:string){
-        //     this.selectedTags.push(tag)
-        // }
+        @Prop() dataSource:string[]
+        selectedTags:string[]=[]  // 数组: 提供给使用者放选中的tag
+
+        toggle(tag:string){  // 点击函数: 如果数组里面没有这个选中的tag,点击后就把这个tag放进数组里
+            const index=this.selectedTags.indexOf(tag)
+            if(index>=0){   // 有这个tag的话,点击后就从数组中移除
+                this.selectedTags.splice(index,1)   // 从index开始删掉一个
+            }else{
+                this.selectedTags.push(tag)
+            }
+            this.$emit('update:value',this.selectedTags)
+        }
+        create(){
+            const name=window.prompt('请输入标签名')   // 跳出一个提示弹窗.填完值以后赋给name
+            if(name===''){
+                window.alert('标签名不能为空')
+            }else{
+                if(this.dataSource){
+                    this.dataSource.push(name!)
+                }
+            }
+        }
     }
 </script>
 
@@ -42,9 +61,10 @@
                 padding:0 16px;
                 margin-right: 12px;
                 margin-top: 4px;
-                // &.selected{
-                //     background: darken($bg,50%);
-                // }
+                &.selected{
+                    background: darken($bg,30%);
+                    color: white;
+                }
             }
         }
         > .new{

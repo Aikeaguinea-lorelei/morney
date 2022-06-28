@@ -13,7 +13,7 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import {Component, Prop} from 'vue-property-decorator';
+    import {Component, Prop, Watch} from 'vue-property-decorator';
     // 引入装饰器
     @Component
     export default class Types extends Vue{
@@ -27,6 +27,11 @@
                 throw new Error('type is unknown')
             }
             this.type=type
+            this.$emit('update.value',type)
+        }
+        @Watch('type')
+        onTypeChanged(value:string){
+            this.$emit('update:value',value)
         }
         mounted(){
             if(this.propA===undefined){
