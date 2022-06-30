@@ -1,7 +1,7 @@
 <template>
         <div>
             <label class="notes">
-                <span class="name">备注</span>
+                <span class="name">{{this.fieldName}}</span>
                 <input type="text" v-model="value" placeholder="在这里输入备注">
             </label>
         </div>
@@ -9,10 +9,13 @@
 
 <script lang="ts">
     import Vue from "vue";
-    import {Component, Watch} from 'vue-property-decorator';
+    import {Component, Watch, Prop} from 'vue-property-decorator';
     @Component
     export default class Notes extends Vue{
         value=''
+        //       必填   :一个从money传入的fieldName
+        @Prop({required:true}) fieldName!:string
+
         @Watch('value')  // 侦听value的值,当value改变时将他的值update
         onValueChanged(value:string,oldValve:string){
             this.$emit('update:value',value)
