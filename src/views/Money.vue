@@ -3,7 +3,9 @@
         {{recordList}}
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
         <Types @update:value="onUpdateType" />
-        <Notes field-name="备注" @update:value="onUpdateNotes" />
+        <div class="notes">
+            <Notes field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
+        </div>
         <Tags :data-source="tag" @update:value="onUpdateTags" />
     </Layout>
 </template>
@@ -78,4 +80,7 @@ import tagListModel from '../models/tagListModel';
 
 <style lang="scss" scoped>
     @import "~@/assets/style/helper.scss";
+    .notes{
+        padding: 12px 0;
+    }
 </style>
