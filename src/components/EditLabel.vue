@@ -1,16 +1,15 @@
 <template>
     <layout>
         <div class="navBar">
-            <Icon class="leftIcon" name="left"/>
+            <Icon class="leftIcon" name="left" @click="goBack"/>
             <span class="title">编辑标签</span>
             <span class="rightIcon"></span>
         </div>
         <div class="form-wrapper">
-            {{tag.name}}
-            <Notes :value="tag.name" field-name="标签名" placeholder="请输入标签名" />
+            <Notes :value.sync="tag.name" @update:value="update" field-name="标签名" placeholder="请输入标签名" />
         </div>
         <div class="button-wrapper">
-            <Button>删除标签</Button>
+            <Button @click="remove">删除标签</Button>
         </div>
     </layout>
 </template>
@@ -27,7 +26,7 @@ import Button from './Button.vue'
     components: { Notes, Button }
 })
 export default class EditLabel extends Vue{
-    tag?:{id:string,name:string}=undefined  // 声明一下tag (? :tag可能为空)
+    tag?:{id:string,name:string}= {id: '', name: ''}  // 声明一下tag.初始值undefined. (? :tag可能为空)
     created(){   // $route.params: 能拿到route的所有的参数
         const id=this.$route.params.id  // (拿到当前id)如果路由里路径为/edit/:id,而url是/edit/1,则拿到{id:'1'}
         tagListModel.fetch()
@@ -39,6 +38,19 @@ export default class EditLabel extends Vue{
         }else{
             this.$router.replace('/404')
         }
+    }
+    // 输入框引入的 上传id和name的函数
+    update(name:string){
+        tagListModel.update(this.tag.id,name)
+    }
+    remove(){
+        if(this.tag){
+            tagListModel.remove(this.tag.id)
+            this.$router.back()  // 删完之后自动返回上一级
+        }
+    }
+    goBack(){
+        this.$router.back()  // back()函数: 直接返回上一级的函数.back是默认函数不用额外声明
     }
 }
 </script>

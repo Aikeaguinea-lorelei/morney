@@ -25,7 +25,6 @@
         createTag(){
             const name=window.prompt('请输入标签名')
             if(name){
-                tagListModel.create(name)
                 // 拿到tagListModel里定义的name值(name只能是 success或者duplicated)
                 const message=tagListModel.create(name)
                 if(message==='duplicated'){
