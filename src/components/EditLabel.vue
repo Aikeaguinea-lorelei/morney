@@ -17,23 +17,19 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import tagListModel from '../models/tagListModel';
-import Icon from './icon.vue';
 import Notes from './Notes.vue'
 import Button from './Button.vue'
+import store from '../store/index2';
 
 @Component({
     components: { Notes, Button }
 })
 export default class EditLabel extends Vue{
-    tag?:{id:string,name:string}= {id: '', name: ''}  // 声明一下tag.初始值undefined. (? :tag可能为空)
+    tag?:Tag= undefined  // 声明一下tag.初始值undefined. (? :tag可能为空)
     created(){   // $route.params: 能拿到route的所有的参数
         const id=this.$route.params.id  // (拿到当前id)如果路由里路径为/edit/:id,而url是/edit/1,则拿到{id:'1'}
-        tagListModel.fetch()
-        const tags=tagListModel.data  // 获取数据,得到所有的tags
-        const tag=tags.filter(t=>t.id===id)[0]  // 在所有tags中筛选id是当前id的tag
+        const tag=store.findTag(id)  // 获取数据,得到所有的tags
         if(tag){
-            console.log(tag)
             this.tag=tag  // 如果存在和当前id一致的tag,就把它赋值为当前tag
         }else{
             this.$router.replace('/404')
@@ -41,12 +37,16 @@ export default class EditLabel extends Vue{
     }
     // 输入框引入的 上传id和name的函数
     update(name:string){
-        tagListModel.update(this.tag.id,name)
+        store.updateTag(this.tag.id,name)
     }
     remove(){
         if(this.tag){
-            tagListModel.remove(this.tag.id)
-            this.$router.back()  // 删完之后自动返回上一级
+            if(store.removeTag(this.tag.id)){
+                this.$router.back()
+                location.reload();
+            }else{
+                window.alert('删除失败')
+            }
         }
     }
     goBack(){

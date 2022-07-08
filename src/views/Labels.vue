@@ -17,21 +17,16 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import tagListModel from '../models/tagListModel';
+    import store from '../store/index2';
 
     tagListModel.fetch()  // 最开始的时候获取一下数据
     @Component
     export default class Labels extends Vue{
-        tags=tagListModel.data
+        tags=store.tagList  // 直接引用custom.d.ts里面定义的 调用数据的函数
         createTag(){
             const name=window.prompt('请输入标签名')
             if(name){
-                // 拿到tagListModel里定义的name值(name只能是 success或者duplicated)
-                const message=tagListModel.create(name)
-                if(message==='duplicated'){
-                    window.alert('标签名重复')
-                }else if(message==='success'){
-                    window.alert('标签添加成功')
-                }
+                store.createTag(name)  // 引用custom.d.ts里面定义的 创建新标签的函数
             }
         }
     }

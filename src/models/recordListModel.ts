@@ -1,13 +1,20 @@
+import clone from "@/lib/clone"
+
 const localStorageKeyName='recordList'
 const recordListModel={
-    clone(data:RecordItem[] | RecordItem){  // 克隆一份数据: 先变成字符串再还原回来
-        return JSON.parse(JSON.stringify(data))
+    data:[] as RecordItem[],
+    create(record:RecordItem){
+        const record2:RecordItem=clone(record)  // 深拷贝得到record2
+        record2.createdAt=new Date()  // 单独定义一下记录日期的数据
+        this.data.push(record2)
+        this.save()
     },
     fetch(){  // 获取数据
-        return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[]
+        this.data=JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[]
+        return this.data 
     },
-    save(data:RecordItem[]){    // 保存数据
-        window.localStorage.setItem(localStorageKeyName,JSON.stringify(data))
+    save(){    // 保存数据
+        window.localStorage.setItem(localStorageKeyName,JSON.stringify(this.data))
     }
 }
 

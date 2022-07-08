@@ -1,18 +1,6 @@
 import createId from "@/lib/idCreateId"
 
 const localStorageKeyName='tagList'
-type Tag={
-    id:string
-    name:string
-}
-type TagListModel={  // 声明各数据的类型. xxx:(输入函数类型)=>输出参数类型
-    data:Tag[]
-    fetch:()=>Tag[]
-    create:(name:string)=>'success' | 'duplicated'  // 输出字符串,'success'表示成功,'duplicated'表示name重复
-    save:()=>void
-    update:(id:string,name:string)=>'success' | 'not found' | 'duplicated'  // 三种结果:成功/找不到id/id重复
-    remove:(id:string)=>boolean  // 删除有两种结果,成功或失败
-}
 const tagListModel:TagListModel={  // 把变量和上面type关联起来
     data:[],
     create(name){  // 上面写了类型这里就不用写了
