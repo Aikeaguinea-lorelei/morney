@@ -3,9 +3,10 @@
     <!-- <Types class="x" :value.sync="type" /> -->
     <Tabs :classPrefix="type" :data-source="typeList" :value.sync="type" />
     <!-- value:当前选中的value -->
-    <ol>
+    <!-- Object.keys(xxx): 提取出xxx的属性 -->
+    <ol v-if="groupedList!==undefined && Object.keys(groupedList).length>0">
       <!-- 展示数据里面的item -->
-      <li v-for="(group, index) in result" :key="index">
+      <li v-for="(group, index) in groupedList" :key="index">
         <!-- 第一层遍历: 遍历经过处理的recordList数据: hashTable  得到根据日期分的几个组. -->
         <!-- 得到分组名:日期 -->
         <h3 class="title">
@@ -23,6 +24,9 @@
         </ol>
       </li>
     </ol>
+    <div v-else class="no-result">
+        此分类下没有数据
+    </div>
   </Layout>
 </template>
 
@@ -46,7 +50,7 @@ export default class Statistics extends Vue {
   typeList = typeList;
   tagString(tags: (string | Tag)[]) {
     const mappedTags = tags.map(t => typeof t === 'string' ? t : t.name) // 兼容tag可能是字符串,也可能是对象的情况
-    return mappedTags.length === 0 ? "无" : mappedTags.join(","); // 用","分割各个tag
+    return mappedTags.length === 0 ? "" : mappedTags.join(","); // 用","分割各个tag
   }
   beautify(string: string) {
     const day = dayjs(string); // 数据中的时间
@@ -69,7 +73,7 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
   // 按照日期展示recordList的数据 的函数
-  get result() {
+  get groupedList() {
     const { recordList } = this;
     const reverseList = recordList.filter((r) => r.type === this.type).reverse();
     type HashTableValue = {title: string;total?: number;items: RecordItem[];}; // 数据里面包含标题和recordItem数据
@@ -77,12 +81,11 @@ export default class Statistics extends Vue {
 
     for (let i = 0; i < reverseList.length; i++) {
       const [date] = reverseList[i].createdAt!.split("T"); // 析构语法,提取出recordList中的日期
-      hashTable[date] = hashTable[date] || { title: date, items: [], total: 0 }; // 初始化
+      hashTable[date] = hashTable[date] || { title: date, items: [], total: 0, }; // 初始化
       hashTable[date].items.push(reverseList[i]); // 把recordList中的每一项 push到这几个日期中[实现按日期分组]
       // reduce 计算一下items的amount总和就完事了
       hashTable[date].total = hashTable[date].items.reduce((sum, cur) => sum + cur.amount, 0);
     }
-    console.log(hashTable)
     return hashTable; // 最后得到的hashTable,就是按日期分组的recordList的数据
   }
   mounted() {
@@ -114,6 +117,11 @@ export default class Statistics extends Vue {
   margin-right: auto;
   margin-left: 16px;
   color: #999;
+}
+.no-result{
+    padding: 16px;
+    text-align: center;
+    color: #999;
 }
 ::v-deep .type-tabs-item {
   // v-deep: 找当前组件的原组件

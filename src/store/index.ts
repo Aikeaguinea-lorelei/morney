@@ -20,12 +20,19 @@ const store = new Vuex.Store({
       record2.createdAt=new Date().toISOString()  // 修改其创建时间为当前时间
       state.recordList.push(record2)  // 再把经过处理后的数据push到上面建的那个数组中
       store.commit('saveRecords')  
+      window.alert('添加成功')
     },
     saveRecords(state){  // 保存函数
       window.localStorage.setItem('recordList',JSON.stringify(state.recordList))
     },
     fetchTags(state){
       const tagList=JSON.parse(window.localStorage.getItem('localStorageKeyName' || '[]'))
+      if(!state.tagList || state.tagList.length===0){   // 如果标签是空,就默认四个
+        store.commit('createTag','衣')
+        store.commit('createTag','食')
+        store.commit('createTag','住')
+        store.commit('createTag','行')
+      }
       return state.tagList=tagList
     },
     // createTag(state,name:string){

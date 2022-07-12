@@ -40,7 +40,7 @@
         display: flex;
         font-style: 24px;
         line-height: 64px;
-        height: 64px;
+        min-height: 64px;
         text-align: center;
         position: relative;
         >li{

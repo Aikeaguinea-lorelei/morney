@@ -23,3 +23,10 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+// 0s之后,设置自动帮用户滚动到底部
+window.onload=function(){
+  setTimeout(function() {
+    window.scrollTo(0,100)
+  }, 0);
+}

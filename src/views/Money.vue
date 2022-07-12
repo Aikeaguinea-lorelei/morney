@@ -4,7 +4,7 @@
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
         <Tabs :data-source="typeList" :value.sync="record.type" />
         <div class="notes">
-            <Notes field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
+            <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes" @update:value="onUpdateNotes" />
         </div>
         <Tags :data-source="tagNames" @update:value="onUpdateTags" />
         <!-- {{store.state.count}} <button @click="$store.commit('increment',1)">+1</button> -->
