@@ -2,8 +2,7 @@
     <Layout class-prefix="xxx"> 
         <!-- {{recordList}} -->
         <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
-        <Types @update:value="onUpdateType" />
-        <Tabs :data-source="typeList" :value.sync="type" />
+        <Tabs :data-source="typeList" :value.sync="record.type" />
         <div class="notes">
             <Notes field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes" />
         </div>
@@ -23,12 +22,10 @@ import Notes from '../components/Notes.vue';
 import store from '../store/index';
 import oldStore from '../store/index2'
 import typeList from '@/constants/typeList';
-
-
-    import Vue from 'vue'
-    import { Component } from 'vue-property-decorator'
-    import recordListModel from '@/models/recordListModel';
-    import Tabs from '../components/Tabs.vue';
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import recordListModel from '@/models/recordListModel';
+import Tabs from '../components/Tabs.vue';
     // const recordList=recordListModel.fetch()  // model.fetch: model.ts里设置的 引入数据
     // const tagList=tagListModel.fetch()
     // const recordList:RecordItem[]=JSON.parse(window.localStorage.getItem('recordList') || '[]')
@@ -59,9 +56,6 @@ import typeList from '@/constants/typeList';
         }
         onUpdateNotes(value:string){
             this.record.notes=value
-        }
-        onUpdateType(value:string){
-            this.record.type=value
         }
         onUpdateAmount(value:string){
             this.record.amount=parseFloat(value)

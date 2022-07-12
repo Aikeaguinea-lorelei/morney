@@ -17,12 +17,12 @@ export default {
 <style lang="scss" scoped>
     .layout-wrapper{
         display: flex;  
-        border:1px solid green ;
+        // border:1px solid green ;
         flex-direction:column;  // column :上下布局
         height:100vh;  // 占满100%页面
     }
     .content{
-        border:1px solid blue;
+        border-bottom:1px solid #c4c4c4;
         overflow: auto;  // 多出来的部分滚动
         flex-grow: 1; // 意思是尽量把所有高度给content
     }
