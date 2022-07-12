@@ -22,6 +22,7 @@
     tagListModel.fetch()  // 最开始的时候获取一下数据
     @Component
     export default class Labels extends Vue{
+        // TODO
         tags=store.tagList  // 直接引用custom.d.ts里面定义的 调用数据的函数
         createTag(){
             const name=window.prompt('请输入标签名')

@@ -5,7 +5,7 @@ const recordListModel={
     data:[] as RecordItem[],
     create(record:RecordItem){
         const record2:RecordItem=clone(record)  // 深拷贝得到record2
-        record2.createdAt=new Date()  // 单独定义一下记录日期的数据
+        record2.createdAt=new Date().toISOString()  // 单独定义一下记录日期的数据
         this.data.push(record2)
         this.save()
     },

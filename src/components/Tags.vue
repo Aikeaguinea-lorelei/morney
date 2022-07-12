@@ -14,10 +14,17 @@
 <script lang="ts">
     import Vue from 'vue'
     import {Component, Prop} from 'vue-property-decorator';
+    import store from '../store/index2';
 
-    @Component  // 定义一个供外部调用的dataSource,并由外部传参(tag)
+    @Component({  // 定义一个供外部调用的dataSource,并由外部传参(tag)
+        computed:{
+            tagList(){
+                return this.store.state.tagList
+            }
+        }
+    })
     export default class Tags extends Vue{
-        @Prop() readonly dataSource:string[] | undefined
+        @Prop({required:true}) readonly dataSource!:string[]
         selectedTags:string[]=[]  // 数组: 提供给使用者放选中的tag
 
         toggle(tag:string){  // 点击函数: 如果数组里面没有这个选中的tag,点击后就把这个tag放进数组里
@@ -31,11 +38,12 @@
         }
         create(){
             const name=window.prompt('请输入标签名')   // 跳出一个提示弹窗.填完值以后赋给name
-            if(name===''){
-                window.alert('标签名不能为空')
+            if(!name){
+                return window.alert('标签名不能为空')
             }else{
                 if(this.dataSource){
-                    this.dataSource.push(name!)
+                    // this.dataSource.push(name!)
+                    store.createTag(name)
                 }
             }
         }

@@ -2,7 +2,7 @@
         <div>
             <label class="notes">
                 <span class="name">{{fieldName}}</span>
-                <input type="text" v-model="text" :placeholder="placeholder">
+                <input type="text" :value="value" @input="onInput" :placeholder="placeholder">
             </label>
         </div>
 </template>
@@ -12,20 +12,14 @@
     import {Component, Watch, Prop} from 'vue-property-decorator';
     @Component
     export default class Notes extends Vue{
-        text=''
         @Prop({default:''}) value!:string 
         //       必填   :一个从money传入的fieldName
         @Prop({required:true}) fieldName!:string  // ! :值一定存在
         @Prop() placeholder?:string   // ? :值有可能不存在
 
-        // @Watch('text')  // 侦听value的值,当value改变时将他的值update
-        onValueChanged(value:string){
-            console.log(value)
-            this.$emit('update:value',value)
-        }
         onInput(event:KeyboardEvent){
             const input=event.target as HTMLInputElement
-            this.value=input.value
+            this.$emit('update:value', input.value)
         }
     }
 </script>

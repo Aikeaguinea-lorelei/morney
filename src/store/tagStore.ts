@@ -5,6 +5,9 @@ export default{
     // 全局引入数据,方便money.vue和labels.vue调用 (直接window.tagList就能调用)
     // 要在custom.d.ts里面声明一下,才能使用window.tagList
     tagList:tagListModel.fetch(),
+    refreshTags() {  // 获取最新数据
+      this.tagList = tagListModel.fetch()
+    },
     findTag(id:string){  // 箭头函数和this不能共存
       return this.tagList.filter(t=>t.id===id)[0]  // 在所有tags中筛选id是当前id的tag
     },

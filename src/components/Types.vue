@@ -1,10 +1,10 @@
 <template>
         <div>
             <ul class="types">
-                <li :class="type==='+' && 'selected'" @click="type='+'">
+                <li @click="type='+'" :class="{selected: type === '+', [classPrefix+'-item']: classPrefix}">
                     收入
                 </li>
-                <li :class="type==='-' && 'selected'" @click="type='-'">
+                <li @click="type='-'" :class="{selected: type === '-', [classPrefix+'-item']: classPrefix}">
                     支出
                 </li>
             </ul>
@@ -20,43 +20,17 @@
         // 引入data
         type='-'
 
-        @Prop(Number) propA: number | undefined; // props属性必须是number,属性名是propa,它必须是number或undefined
-        // 引入methods
-        selectType(type:string){   // 声明一下类型
-            if(type!=='-' && type!=='+'){  // type只能是+或-
-                throw new Error('type is unknown')
-            }
-            this.type=type
-            this.$emit('update.value',type)
-        }
+        @Prop(String) readonly value!:string 
+        @Prop(String) classPrefix?:string
+
         @Watch('type')
         onTypeChanged(value:string){
             this.$emit('update:value',value)
         }
         mounted(){
-            if(this.propA===undefined){
-                console.log('没有prop')
-            }else{
-                console.log(this.propA.toString())
-            }
+            this.type = this.value
         }
     }
-    // export default{
-    //     name:'Types',
-    //     data(){
-    //         return {
-    //             type:'-'  // -表示收入 +表示支出
-    //         }
-    //     },
-    //     methods:{
-    //         selectType(type){
-    //             if(type!=='-' && type!=='+'){  // type只能是+或-
-    //                 throw new Error('type is unknown')
-    //             }
-    //             this.type=type
-    //         }
-    //     }
-    // }
 </script>
 
 <style lang="scss" scoped>

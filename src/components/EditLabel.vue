@@ -37,13 +37,13 @@ export default class EditLabel extends Vue{
     }
     // 输入框引入的 上传id和name的函数
     update(name:string){
-        store.updateTag(this.tag.id,name)
+        // store.updateTag(this.tag.id,name)
     }
     remove(){
         if(this.tag){
             if(store.removeTag(this.tag.id)){
+                store.refreshTags()  // 获取新数据以后再返回上一级
                 this.$router.back()
-                location.reload();
             }else{
                 window.alert('删除失败')
             }

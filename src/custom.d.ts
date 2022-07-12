@@ -3,8 +3,14 @@ type RecordItem={
     tags:string[]
     notes:string
     type:string
-    amount:number
-    createdAt?:Date  // 创建一个记录日期的数据
+    total:number
+    amount:number  // 金额
+    createdAt?:string  // 创建一个记录日期的数据
+}
+type RootState={
+    recordList:RecordItem[]
+    tagList:Tag[]
+    currentTag?:Tag
 }
 type Tag={
     id:string
